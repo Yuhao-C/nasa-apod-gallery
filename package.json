@@ -14,7 +14,7 @@
   },
   "author": "Yuhao Chen <y627chen@uwaterloo.ca>",
   "license": "MIT",
-  "homepage": "",
+  "homepage": "https://yuhao-c.github.io/nasa-apod-gallery",
   "dependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
