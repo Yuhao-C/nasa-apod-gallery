@@ -36,7 +36,7 @@ const PhotoCard: React.FC<PhotoCardInfo> = props => {
   });
 
   return (
-    <Card>
+    <Card className="photo-card">
       <CardActionArea>
         <Tooltip arrow title="Open HD Image" placement="top-end">
           <div className="img-container" ref={imgContainerRef} />
