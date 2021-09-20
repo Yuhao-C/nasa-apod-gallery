@@ -1,17 +1,15 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import React, { useRef, useEffect, useState } from 'react';
-import Lottie from 'react-lottie';
+import React, { useRef, useEffect } from 'react';
 import {
   Card,
   CardActions,
   CardContent,
   CardActionArea,
-  IconButton,
   Typography,
   Tooltip,
 } from '@mui/material';
+import Like from '@/components/like';
 import { PhotoCardInfo } from '@/types/photo-card';
-import likeAnimation from '@/assets/lottie/like.json';
 
 import './index.less';
 
@@ -19,37 +17,6 @@ const PhotoCard: React.FC<PhotoCardInfo> = props => {
   const { date, explanation, hdurl, title, img_element } = props;
 
   const imgContainerRef = useRef<HTMLImageElement>(null);
-
-  const [isLottieStopped, setIsLottieStopped] = useState(true);
-  const [isLottiePaused, setIsLottiePaused] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
-
-  const lottieOptions = {
-    loop: false,
-    autoplay: false,
-    animationData: likeAnimation,
-  };
-
-  const onLikeClick = () => {
-    if (isAnimating) {
-      return;
-    }
-    if (isLottiePaused) {
-      setIsLottiePaused(false);
-      setIsAnimating(true);
-      setTimeout(() => {
-        setIsLottieStopped(true);
-        setIsAnimating(false);
-      }, 600);
-    } else {
-      setIsLottieStopped(false);
-      setIsAnimating(true);
-      setTimeout(() => {
-        setIsLottiePaused(true);
-        setIsAnimating(false);
-      }, 600);
-    }
-  };
 
   useEffect(() => {
     img_element.setAttribute('alt', `Astronomy Picture of the Day on ${date}`);
@@ -88,20 +55,7 @@ const PhotoCard: React.FC<PhotoCardInfo> = props => {
       </CardContent>
 
       <CardActions disableSpacing>
-        <IconButton
-          aria-label="like"
-          onClick={onLikeClick}
-          sx={{ padding: '0px' }}
-        >
-          <Lottie
-            options={lottieOptions}
-            height={40}
-            width={40}
-            isStopped={isLottieStopped}
-            isPaused={isLottiePaused}
-            speed={2}
-          />
-        </IconButton>
+        <Like />
       </CardActions>
     </Card>
   );
