@@ -139,7 +139,9 @@ var PhotoCard = function PhotoCard(props) {
       }
     }
   });
-  return /*#__PURE__*/react.createElement(Card/* default */.Z, null, /*#__PURE__*/react.createElement(CardActionArea/* default */.Z, null, /*#__PURE__*/react.createElement(Tooltip/* default */.Z, {
+  return /*#__PURE__*/react.createElement(Card/* default */.Z, {
+    className: "photo-card"
+  }, /*#__PURE__*/react.createElement(CardActionArea/* default */.Z, null, /*#__PURE__*/react.createElement(Tooltip/* default */.Z, {
     arrow: true,
     title: "Open HD Image",
     placement: "top-end"
@@ -806,4 +808,4 @@ react_dom.render( /*#__PURE__*/react.createElement(react.StrictMode, null, /*#__
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);
-//# sourceMappingURL=main_179.67b9ea1b.js.map
+//# sourceMappingURL=main_179.e32e8913.js.map
