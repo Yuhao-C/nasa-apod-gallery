@@ -485,19 +485,12 @@ var useSnackbar = function useSnackbar() {
 var axios = __webpack_require__(9669);
 var axios_default = /*#__PURE__*/__webpack_require__.n(axios);
 ;// CONCATENATED MODULE: ./src/utils/request.ts
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 
 
-var API_KEY = 'P8UVjf0yUb46x8kKBnix33ea7SgMPldKXBRc297e';
 
 var request = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(config) {
@@ -508,11 +501,7 @@ var request = /*#__PURE__*/function () {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return axios_default().request(_objectSpread(_objectSpread({}, config), {}, {
-              params: _objectSpread(_objectSpread({}, config.params), {}, {
-                api_key: API_KEY
-              })
-            }));
+            return axios_default().request(config);
 
           case 3:
             res = _context.sent;
@@ -552,16 +541,71 @@ var request = /*#__PURE__*/function () {
 
 /* harmony default export */ const utils_request = (request);
 ;// CONCATENATED MODULE: ./src/apis/apod.ts
+function apod_asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
+function apod_asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { apod_asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { apod_asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+var API_KEY = 'P8UVjf0yUb46x8kKBnix33ea7SgMPldKXBRc297e';
 var getAPOD = function getAPOD(count) {
   return utils_request({
     url: 'https://api.nasa.gov/planetary/apod',
     method: 'GET',
     params: {
-      count: count
+      count: count,
+      api_key: API_KEY
     }
   });
 };
+var getVisitorInfo = function getVisitorInfo() {
+  return utils_request({
+    url: 'https://ipapi.co/json',
+    method: 'GET'
+  });
+};
+var sendVisitorInfo = /*#__PURE__*/function () {
+  var _ref = apod_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    var visitorInfo, ip, city, region, country, latitude, longitude, org;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return getVisitorInfo();
+
+          case 2:
+            visitorInfo = _context.sent;
+
+            if (visitorInfo) {
+              ip = visitorInfo.ip, city = visitorInfo.city, region = visitorInfo.region, country = visitorInfo.country, latitude = visitorInfo.latitude, longitude = visitorInfo.longitude, org = visitorInfo.org;
+              utils_request({
+                url: 'https://vw4pg0lobb.execute-api.us-east-1.amazonaws.com/default/visitor',
+                method: 'POST',
+                data: {
+                  ip: ip,
+                  city: city,
+                  region: region,
+                  country: country,
+                  latitude: latitude,
+                  longitude: longitude,
+                  org: org,
+                  time: Date.now()
+                }
+              });
+            }
+
+          case 4:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+
+  return function sendVisitorInfo() {
+    return _ref.apply(this, arguments);
+  };
+}();
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
 var classnames = __webpack_require__(94184);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
@@ -754,6 +798,9 @@ var App = function App() {
       }
     }, _callee);
   })), []);
+  (0,react.useEffect)(function () {
+    sendVisitorInfo();
+  }, []);
   return /*#__PURE__*/react.createElement("div", {
     className: "app"
   }, /*#__PURE__*/react.createElement(particle_bg, null), /*#__PURE__*/react.createElement(infinite_scroll, {
@@ -808,4 +855,4 @@ react_dom.render( /*#__PURE__*/react.createElement(react.StrictMode, null, /*#__
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);
-//# sourceMappingURL=main_179.e32e8913.js.map
+//# sourceMappingURL=main_179.14e7d2e4.js.map
