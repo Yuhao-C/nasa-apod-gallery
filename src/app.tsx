@@ -1,11 +1,11 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import StackGrid from 'react-stack-grid';
 import { Snackbar, Alert } from '@mui/material';
 import PhotoCard from '@/components/photo-card';
 import ParticleBg from '@/components/particle-bg';
 import { loadImage } from '@/utils/image';
 import { useSnackbar } from '@/utils/snack-bar';
-import { getAPOD } from '@/apis/apod';
+import { getAPOD, sendVisitorInfo } from '@/apis/apod';
 import InfiniteScroll from '@/components/infinite-scroll';
 import { MediaType, PhotoCardInfo } from '@/types/photo-card';
 
@@ -39,6 +39,10 @@ const App: React.FC<Record<string, never>> = () => {
       setData(d => [...d, ...filteredRes.filter(res => res.img_element)]);
     }
     setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    sendVisitorInfo();
   }, []);
 
   return (
